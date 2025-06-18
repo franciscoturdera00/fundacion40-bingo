@@ -1,0 +1,51 @@
+export const locations = [
+  {
+    bingo_value: 1,
+    name: "Buenos Aires",
+    lat: -34.6037,
+    lng: -58.3816,
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Buenos_Aires_Obelisk-20110509-RM-104316.jpg",
+    province: "Buenos Aires",
+  },
+  {
+    bingo_value: 2,
+    name: "Buenos Aires 2",
+    lat: -34.6037,
+    lng: -58.3816,
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Buenos_Aires_Obelisk-20110509-RM-104316.jpg",
+    province: "Buenos Aires",
+  },
+  {
+    bingo_value: 3,
+    name: "Buenos Aires 3",
+    lat: -34.6037,
+    lng: -58.3816,
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Buenos_Aires_Obelisk-20110509-RM-104316.jpg",
+    province: "Buenos Aires",
+  },
+  {
+    bingo_value: 4,
+    name: "Buenos Aires 4",
+    lat: -34.6037,
+    lng: -58.3816,
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Buenos_Aires_Obelisk-20110509-RM-104316.jpg",
+    province: "Buenos Aires",
+  },
+  {
+    bingo_value: 5,
+    name: "Córdoba",
+    lat: -31.4201,
+    lng: -64.1888,
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/95/Provincia_de_C%C3%B3rdoba%2C_Argentina.png",
+    province: "Buenos Aires",
+  },
+  {
+    bingo_value: 6,
+    name: "Bariloche",
+    lat: -41.1335,
+    lng: -71.3103,
+    img: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Mirador_al_Llao_Llao.jpg",
+    province: "Buenos Aires",
+  },
+  // Add the rest of your 74 locations here
+];
