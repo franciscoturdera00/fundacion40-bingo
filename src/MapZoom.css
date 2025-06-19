@@ -2,28 +2,17 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 4rem;
-  margin-top: 2rem;
-  padding: 0 4rem;
+  width: 100vw;
+  padding: 2rem 4rem;
+  box-sizing: border-box;
 }
 
-/* Wraps the map centered on the left */
 .map-wrapper {
   position: relative;
   width: 600px;
   height: 600px;
   overflow: hidden;
   background-color: transparent;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Container for the grid to align right */
-.bingo-grid-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .map-inner {
