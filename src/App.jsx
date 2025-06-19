@@ -30,51 +30,37 @@ function App() {
 
   return (
     <div id="root">
-      <h1>Argentina Bingo</h1>
-      <MapZoom selected={selected} />
-      <button onClick={drawRandom}>🎲 Draw Location</button>
-
-      {selected && (
-        <div key={selected.name} className="card animated-card">
-          <h2>{selected.name}</h2>
-          <img
-            src={selected.img}
-            alt={selected.name}
-            style={{
-              maxWidth: "300px",
-              maxHeight: "200px",
-              marginTop: "1rem",
-              border: "1px solid #ccc",
-              background: "white",
-            }}
-          />
-          <p>Latitude: {selected.lat}</p>
-          <p>Longitude: {selected.lng}</p>
-        </div>
-      )}
-
-      <h2 style={{ marginTop: "2rem" }}>Bingo Board</h2>
-      <div className="grid">
-        {allLocations.map((loc) => {
-          const isDrawn = drawn.includes(loc.name);
-          const isLatest = loc.name === lastDrawn;
-          return (
-            <div
-              key={loc.name}
-              className={`cell ${isDrawn ? "drawn" : ""} ${
-                isLatest ? "popping" : ""
-              }`}
-              title={loc.name}
-            >
-              {loc.name}
-            </div>
-          );
-        })}
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <h1>Fundación Ruta 40 - Bingo!</h1>
+        <button onClick={drawRandom}>🎲</button>
       </div>
+      <div className="map-grid">
+        <MapZoom selected={selected} />
 
-      <p style={{ marginTop: "2rem", color: "#888" }}>
-        {remaining.length} locations remaining
-      </p>
+        <div className="bingo-grid-container">
+          <div className="grid">
+            {allLocations.map((loc) => {
+              const isDrawn = drawn.includes(loc.name);
+              const isLatest = loc.name === lastDrawn;
+              return (
+                <div
+                  key={loc.name}
+                  className={`cell ${isDrawn ? "drawn" : ""} ${
+                    isLatest ? "popping" : ""
+                  }`}
+                  title={loc.name}
+                >
+                  {loc.bingo_value}
+                </div>
+              );
+            })}
+          </div>
+
+          <p style={{ marginTop: "2rem", color: "#888" }}>
+            {remaining.length} locations remaining
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
