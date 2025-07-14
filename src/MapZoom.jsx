@@ -69,7 +69,8 @@ export default function MapZoom({ selected }) {
         >
           <h2>{selected.name}</h2>
           <img
-            src={selected.img}
+            // src={selected.img}
+            src="imagenes\FotoGenerica.jpg"
             alt={selected.name}
             className="location-img"
           />
