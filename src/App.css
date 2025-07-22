@@ -1,6 +1,18 @@
+html,
+body,
 #root {
+  height: 100%;
   width: 100%;
-  padding: 2rem;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.app-scaled {
+  transform: scale(0.8); /* equivalente a zoom 80% */
+  transform-origin: top left; /* mantiene alineado arriba-izquierda */
+  width: 125%; /* compensa el scale visual */
+  height: 125%;
 }
 
 @keyframes pop {
@@ -89,7 +101,7 @@
   align-items: flex-end;
   margin-left: auto;
   margin-right: 2rem;
-  margin-top: -3rem; /* pulls just the grid up */
+  margin-top: -1rem; /* pulls just the grid up */
 }
 
 .header {
