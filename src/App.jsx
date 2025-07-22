@@ -33,7 +33,7 @@ function App() {
         {/* Title and Button Centered */}
         <div className="header">
           <div className="title-block">
-            <h1>Fundación Ruta 40 - Bingo!</h1>
+            <h1 className="main-title">Fundación Ruta 40 - Bingo!</h1>
             <button
               onClick={drawRandom}
               disabled={isButtonDisabled}
