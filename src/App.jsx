@@ -30,25 +30,18 @@ function App() {
 
   return (
     <div id="root">
-      <h1 style={{ textAlign: "center", marginBottom: "1rem" }}>
-        Fundación Ruta 40 - Bingo!
-      </h1>
-      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <button onClick={drawRandom}>🎲</button>
+      {/* Title and Button Centered */}
+      <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+        <h1>Fundación Ruta 40 - Bingo!</h1>
+        <button onClick={drawRandom} style={{ marginTop: "0.5rem" }}>
+          🎲
+        </button>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: "2rem",
-        }}
-      >
-        {/* Map left */}
+      {/* Main layout: Map on left, Grid on right */}
+      <div className="main-layout">
         <MapZoom selected={selected} />
 
-        {/* Numbers right */}
         <div className="bingo-grid-container">
           <div className="grid">
             {[...allLocations]

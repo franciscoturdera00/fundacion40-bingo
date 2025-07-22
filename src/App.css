@@ -32,20 +32,25 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* change to 4 if you want 4 columns */
+  grid-template-columns: repeat(5, 1fr); /* change to 4 if you want 4 columns */
   gap: 0.5rem;
   margin-top: 1rem;
 }
 
 .cell {
-  padding: 0.5rem;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
   background: black;
-  font-size: 0.8rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
 }
 
 .cell.drawn {
@@ -70,10 +75,19 @@
   transition: all 0.3s ease;
 }
 
+.main-layout {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  margin-top: 0; /* prevent overlapping the title/button */
+}
+
 .bingo-grid-container {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-left: auto; /* pushes to the right */
-  padding-top: 1rem;
+  margin-left: auto;
+  margin-right: 2rem;
+  margin-top: -3rem; /* pulls just the grid up */
 }
