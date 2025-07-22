@@ -28,12 +28,10 @@ export default function MapZoom({ selected, isPopupFadingOut }) {
     // Step 2: Zoom out after 5s
     const timeoutId = setTimeout(() => {
       setZoomLevel(1);
-    }, 5000);
+    }, 4000);
 
     return () => clearTimeout(timeoutId);
   }, [selected]);
-
-  const showCard = selected && (selected === lastSelected || isPopupFadingOut);
 
   const normalizedProvince = selected?.province
     ?.trim()

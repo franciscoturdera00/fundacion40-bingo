@@ -17,6 +17,11 @@ function App() {
     const index = Math.floor(Math.random() * remaining.length);
     const selectedLocation = remaining[index];
 
+    // Remove the selected location from remaining
+    const newRemaining = [...remaining];
+    newRemaining.splice(index, 1);
+    setRemaining(newRemaining);
+
     setSelected(selectedLocation);
     setLastDrawn(selectedLocation.name);
     setDrawn([...drawn, selectedLocation.name]);
@@ -24,7 +29,7 @@ function App() {
     setIsButtonDisabled(true);
     setTimeout(() => {
       setIsButtonDisabled(false);
-    }, 8000); // 8 seconds
+    }, 5000); // 8 seconds
   };
 
   return (

@@ -102,7 +102,7 @@ export const locations = [
     bingo_value: 15,
     name: "Escuela No 63 Mtro. Guillermo Ríos",
     img: "15.jpg",
-    province: "la Rioja",
+    province: "a Rioja",
     texto: "Suriyaco, La Rioja",
   },
   {
