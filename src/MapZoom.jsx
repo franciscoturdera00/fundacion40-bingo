@@ -2,54 +2,75 @@ import { useEffect, useState } from "react";
 import "./MapZoom.css";
 import { provinces } from "./provinces";
 
-export default function MapZoom({ selected }) {
+export default function MapZoom({ selected, isPopupFadingOut }) {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [lastSelected, setLastSelected] = useState(null);
 
   useEffect(() => {
-    if (selected && selected !== lastSelected) {
-      setZoomLevel(1); // Zoom out first
+    if (!selected) return;
 
-      const zoomInTimeout = setTimeout(() => {
-        setLastSelected(selected);
-        setZoomLevel(provinces[selected.province]?.zoom || 1);
+    const normalizedProvince = selected.province
+      ?.trim()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "");
+    const province = provinces[normalizedProvince];
 
-        const zoomOutTimeout = setTimeout(() => {
-          setZoomLevel(1);
-        }, 5000); // zoom out 5s after zooming in
-
-        return () => clearTimeout(zoomOutTimeout);
-      }, 500); // zoom in after 2s
-
-      return () => clearTimeout(zoomInTimeout);
+    if (!province) {
+      console.warn("Provincia no encontrada:", selected.province);
+      setZoomLevel(1);
+      return;
     }
-  }, [selected, lastSelected]);
 
-  const showCard = selected && selected === lastSelected;
+    // Step 1: Zoom in
+    setZoomLevel(province.zoom);
 
-  if (!selected) return null;
+    // Step 2: Zoom out after 5s
+    const timeoutId = setTimeout(() => {
+      setZoomLevel(1);
+    }, 5000);
 
-  const province = provinces[selected.province];
-  if (!province) return null;
+    return () => clearTimeout(timeoutId);
+  }, [selected]);
 
-  const { center } = province;
+  const showCard = selected && (selected === lastSelected || isPopupFadingOut);
 
-  const style = {
-    transformOrigin: `${center.x}% ${center.y}%`,
-    transform: `scale(${zoomLevel})`,
-    transition: "transform 2s ease-in-out",
+  const normalizedProvince = selected?.province
+    ?.trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "");
+  const province = provinces[normalizedProvince];
+
+  // fallback si no hay provincia válida
+  const fallback = {
+    center: { x: 50, y: 50 },
+    zoom: 1,
   };
+  const center = province?.center || fallback.center;
+  const zoom = province?.zoom || fallback.zoom;
 
   return (
     <div className="map-grid">
       <div className="map-wrapper">
-        <div className="map-inner" style={style}>
+        <div
+          className="map-inner"
+          style={
+            province && center
+              ? {
+                  transformOrigin: `${center.x}% ${center.y}%`,
+                  transform: `scale(${zoomLevel})`,
+                  transition: "transform 2s ease-in-out",
+                }
+              : {}
+          }
+        >
           <img
             src="/mapa_argentina.png"
             className="map-img"
             alt="Argentina map"
           />
-          {
+          {province && center && (
             <div
               className="map-marker"
               style={{ left: `${center.x}%`, top: `${center.y}%` }}
@@ -57,24 +78,42 @@ export default function MapZoom({ selected }) {
               <div className="marker-head" />
               <div className="marker-body" />
             </div>
-          }
+          )}
         </div>
       </div>
-      {showCard && (
+
+      {selected && (
         <div
-          className="location-card-overlay fade-in"
+          className="location-card-overlay"
           style={{
             transform: "translate(-50%, -50%)",
+            backgroundColor: "#2a394a",
+            color: "#f0f0f0",
+            borderRadius: "16px",
+            padding: "2rem",
+            boxShadow: "0 8px 24px rgba(0, 0, 0, 0.6)",
           }}
         >
-          <h2>{selected.name}</h2>
+          <div
+            style={{
+              fontSize: "2.5rem",
+              fontWeight: "bold",
+              color: "#4caf50",
+              marginBottom: "0.5rem",
+            }}
+          >
+            {selected.bingo_value}
+          </div>
+          <h2 style={{ margin: 0 }}>📍 {selected.name}</h2>
           <img
-            // src={selected.img}
-            src="imagenes\FotoGenerica.jpg"
+            // src={`imagenes/${selected.img}`}
+            src="imagenes/FotoGenerica.jpg"
             alt={selected.name}
             className="location-img"
           />
-          <p>{selected.province}</p>
+          <p style={{ marginTop: "0.75rem", fontSize: "1rem", color: "#ccc" }}>
+            {selected.texto}
+          </p>
         </div>
       )}
     </div>

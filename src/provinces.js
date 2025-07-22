@@ -1,47 +1,26 @@
-// 2. src/provinces.js
+// src/provinces.js
 export const provinces = {
-  Catamarca: {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  Chubut: {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  Jujuy: {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  "La Rioja": {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  Mendoza: {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  Neuquén: {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  "Río Negro": {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  Salta: {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  "San Juan": {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  "Santa Cruz": {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
-  Tucumán: {
-    center: { x: 25, y: 40 }, // in % relative to image
-    zoom: 4,
-  },
+  BuenosAires: { center: { x: 60, y: 56 }, zoom: 4 },
+  Catamarca: { center: { x: 41, y: 24 }, zoom: 4 },
+  Chaco: { center: { x: 58, y: 19 }, zoom: 4 },
+  Chubut: { center: { x: 41, y: 80 }, zoom: 4 },
+  Cordoba: { center: { x: 51, y: 36 }, zoom: 4 },
+  Corrientes: { center: { x: 65, y: 27 }, zoom: 4 },
+  EntreRios: { center: { x: 62, y: 42 }, zoom: 4 },
+  Formosa: { center: { x: 60, y: 11 }, zoom: 4 },
+  Jujuy: { center: { x: 42, y: 10 }, zoom: 4 },
+  LaPampa: { center: { x: 46, y: 56 }, zoom: 4 },
+  LaRioja: { center: { x: 41, y: 32 }, zoom: 4 },
+  Mendoza: { center: { x: 33, y: 46 }, zoom: 4 },
+  Misiones: { center: { x: 70, y: 18 }, zoom: 4 },
+  Neuquen: { center: { x: 35, y: 62 }, zoom: 4 },
+  RioNegro: { center: { x: 43, y: 70 }, zoom: 4 },
+  Salta: { center: { x: 46, y: 14 }, zoom: 4 },
+  SanJuan: { center: { x: 33, y: 36 }, zoom: 4 },
+  SanLuis: { center: { x: 44, y: 46 }, zoom: 4 },
+  SantaCruz: { center: { x: 37, y: 90 }, zoom: 4 },
+  SantaFe: { center: { x: 58, y: 35 }, zoom: 4 },
+  SantiagoDelEstero: { center: { x: 50, y: 26 }, zoom: 4 },
+  TierraDelFuego: { center: { x: 40, y: 98 }, zoom: 4 },
+  Tucuman: { center: { x: 48, y: 21 }, zoom: 4 },
 };

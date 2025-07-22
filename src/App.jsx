@@ -8,39 +8,48 @@ function App() {
   const [selected, setSelected] = useState(null);
   const [drawn, setDrawn] = useState([]);
   const [lastDrawn, setLastDrawn] = useState(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isPopupFadingOut, setIsPopupFadingOut] = useState(false);
 
   const drawRandom = () => {
-    if (remaining.length === 0) {
-      alert("🎉 All locations have been drawn!");
-      return;
-    }
+    if (isButtonDisabled || remaining.length === 0) return;
 
     const index = Math.floor(Math.random() * remaining.length);
-    const chosen = remaining[index];
+    const selectedLocation = remaining[index];
 
-    setSelected(chosen);
-    setLastDrawn(chosen.name);
-    setDrawn((prev) => [...prev, chosen.name]);
-    setRemaining((prev) => {
-      const updated = [...prev];
-      updated.splice(index, 1);
-      return updated;
-    });
+    setSelected(selectedLocation);
+    setLastDrawn(selectedLocation.name);
+    setDrawn([...drawn, selectedLocation.name]);
+
+    setIsButtonDisabled(true);
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 8000); // 8 seconds
   };
 
   return (
     <div id="root">
       {/* Title and Button Centered */}
-      <div style={{ textAlign: "center", marginBottom: "1rem" }}>
-        <h1>Fundación Ruta 40 - Bingo!</h1>
-        <button onClick={drawRandom} style={{ marginTop: "0.5rem" }}>
-          🎲
-        </button>
+      <div className="header">
+        <div className="title-block">
+          <h1>Fundación Ruta 40 - Bingo!</h1>
+          <button
+            onClick={drawRandom}
+            disabled={isButtonDisabled}
+            style={{
+              marginTop: "0.5rem",
+              opacity: isButtonDisabled ? 0.5 : 1,
+              cursor: isButtonDisabled ? "not-allowed" : "pointer",
+              transition: "opacity 0.3s",
+            }}
+          >
+            🎲
+          </button>
+        </div>
       </div>
-
       {/* Main layout: Map on left, Grid on right */}
       <div className="main-layout">
-        <MapZoom selected={selected} />
+        <MapZoom selected={selected} isPopupFadingOut={isPopupFadingOut} />
 
         <div className="bingo-grid-container">
           <div className="grid">
@@ -63,11 +72,14 @@ function App() {
               })}
           </div>
 
-          <p style={{ marginTop: "2rem", color: "#888" }}>
-            {remaining.length} locations remaining
-          </p>
+          <p style={{ marginTop: "2rem", color: "#888" }}></p>
         </div>
       </div>
+      <img
+        src="/imagenes/Logo_FR40_white.png"
+        alt="Fundación Ruta 40"
+        className="logo-fr40-fixed"
+      />
     </div>
   );
 }

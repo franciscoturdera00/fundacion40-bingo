@@ -91,3 +91,30 @@
   margin-right: 2rem;
   margin-top: -3rem; /* pulls just the grid up */
 }
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.logo-fr40 {
+  height: 80px;
+  object-fit: contain;
+}
+
+.title-block {
+  text-align: center;
+}
+
+.logo-fr40-fixed {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  height: 240px; /* 4x tamaño base (~40px) */
+  z-index: 1000;
+  pointer-events: none; /* permite hacer clic en lo de abajo */
+  opacity: 0.9;
+}
