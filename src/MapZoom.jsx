@@ -89,21 +89,29 @@ export default function MapZoom({ selected, isPopupFadingOut }) {
             transform: "translate(-50%, -50%)",
             backgroundColor: "#2a394a",
             color: "#f0f0f0",
-            borderRadius: "16px",
-            padding: "2rem",
+            borderRadius: "18px",
+            padding: "2.3rem",
+            maxWidth: "736px", // antes: 640px
             boxShadow: "0 8px 24px rgba(0, 0, 0, 0.6)",
           }}
         >
           <div
             style={{
-              fontSize: "2.5rem",
-              fontWeight: "bold",
-              color: "#4caf50",
-              marginBottom: "0.5rem",
+              fontSize: "4rem",
+              fontWeight: "900",
+              color: "#fff",
+              background: "linear-gradient(135deg, #4caf50 0%, #81c784 100%)",
+              padding: "1rem 2rem",
+              borderRadius: "1rem",
+              boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
+              marginBottom: "1rem",
+              letterSpacing: "2px",
+              textShadow: "0 2px 4px rgba(0,0,0,0.6)",
             }}
           >
             {selected.bingo_value}
           </div>
+
           <h2 style={{ margin: 0 }}>📍 {selected.name}</h2>
           <img
             // src={`imagenes/${selected.img}`}
