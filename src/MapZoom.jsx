@@ -86,6 +86,8 @@ export default function MapZoom({ selected, isPopupFadingOut }) {
         <div
           className="location-card-overlay"
           style={{
+            top: "55%", // en lugar de 50%
+            left: "50%",
             transform: "translate(-50%, -50%)",
             backgroundColor: "#2a394a",
             color: "#f0f0f0",
@@ -97,7 +99,7 @@ export default function MapZoom({ selected, isPopupFadingOut }) {
         >
           <div
             style={{
-              fontSize: "4rem",
+              fontSize: "5rem",
               fontWeight: "900",
               color: "#fff",
               background: "linear-gradient(135deg, #4caf50 0%, #81c784 100%)",
