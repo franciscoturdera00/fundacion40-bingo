@@ -37,9 +37,18 @@ function App() {
         <button onClick={drawRandom}>🎲</button>
       </div>
 
-      <div className="map-grid">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          gap: "2rem",
+        }}
+      >
+        {/* Map left */}
         <MapZoom selected={selected} />
 
+        {/* Numbers right */}
         <div className="bingo-grid-container">
           <div className="grid">
             {[...allLocations]
