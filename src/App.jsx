@@ -30,30 +30,35 @@ function App() {
 
   return (
     <div id="root">
-      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <h1>Fundación Ruta 40 - Bingo!</h1>
+      <h1 style={{ textAlign: "center", marginBottom: "1rem" }}>
+        Fundación Ruta 40 - Bingo!
+      </h1>
+      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
         <button onClick={drawRandom}>🎲</button>
       </div>
+
       <div className="map-grid">
         <MapZoom selected={selected} />
 
         <div className="bingo-grid-container">
           <div className="grid">
-            {allLocations.map((loc) => {
-              const isDrawn = drawn.includes(loc.name);
-              const isLatest = loc.name === lastDrawn;
-              return (
-                <div
-                  key={loc.name}
-                  className={`cell ${isDrawn ? "drawn" : ""} ${
-                    isLatest ? "popping" : ""
-                  }`}
-                  title={loc.name}
-                >
-                  {loc.bingo_value}
-                </div>
-              );
-            })}
+            {[...allLocations]
+              .sort((a, b) => a.bingo_value - b.bingo_value)
+              .map((loc) => {
+                const isDrawn = drawn.includes(loc.name);
+                const isLatest = loc.name === lastDrawn;
+                return (
+                  <div
+                    key={loc.name}
+                    className={`cell ${isDrawn ? "drawn" : ""} ${
+                      isLatest ? "popping" : ""
+                    }`}
+                    title={loc.name}
+                  >
+                    {loc.bingo_value}
+                  </div>
+                );
+              })}
           </div>
 
           <p style={{ marginTop: "2rem", color: "#888" }}>
