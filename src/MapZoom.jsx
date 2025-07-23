@@ -3,7 +3,7 @@ import "./MapZoom.css";
 import { provinces } from "./provinces";
 
 export default function MapZoom({ selected, delay }) {
-  const EFFECT_TIME = 4000;
+  const EFFECT_TIME = 2500;
   const [zoomLevel, setZoomLevel] = useState(1);
 
   useEffect(() => {

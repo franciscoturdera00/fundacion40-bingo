@@ -4,7 +4,7 @@ import MapZoom from "./MapZoom";
 import "./App.css";
 
 function App() {
-  const ANIMATION_TIME = 4000;
+  const ANIMATION_TIME = 2500;
   const BUTTON_TIMEOUT = ANIMATION_TIME + 1500;
   const [remaining, setRemaining] = useState([...allLocations]);
   const [selected, setSelected] = useState(null);
@@ -20,7 +20,9 @@ function App() {
     if (showAnimation && remaining.length > 0) {
       interval = setInterval(() => {
         const index = Math.floor(Math.random() * remaining.length);
-        setOscillatingValue(remaining[index].bingo_value);
+        setOscillatingValue(
+          Math.floor(Math.random() * allLocations.length) + 1
+        );
       }, 100);
     } else {
       clearInterval(interval);
