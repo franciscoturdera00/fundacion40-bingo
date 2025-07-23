@@ -9,7 +9,8 @@ function App() {
   const [drawn, setDrawn] = useState([]);
   const [lastDrawn, setLastDrawn] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [isPopupFadingOut, setIsPopupFadingOut] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [showCard, setShowCard] = useState(false);
 
   const drawRandom = () => {
     if (isButtonDisabled || remaining.length === 0) return;
@@ -17,7 +18,6 @@ function App() {
     const index = Math.floor(Math.random() * remaining.length);
     const selectedLocation = remaining[index];
 
-    // Remove the selected location from remaining
     const newRemaining = [...remaining];
     newRemaining.splice(index, 1);
     setRemaining(newRemaining);
@@ -27,15 +27,22 @@ function App() {
     setDrawn([...drawn, selectedLocation.name]);
 
     setIsButtonDisabled(true);
+    setShowAnimation(true);
+    setShowCard(false);
+
+    setTimeout(() => {
+      setShowAnimation(false);
+      setShowCard(true);
+    }, 4000);
+
     setTimeout(() => {
       setIsButtonDisabled(false);
-    }, 5000); // 8 seconds
+    }, 6000);
   };
 
   return (
     <div className="app-scaled">
       <div id="root">
-        {/* Title and Button Centered */}
         <div className="header">
           <div className="title-block">
             <h1 className="main-title">Fundación Ruta 40 - Bingo!</h1>
@@ -53,9 +60,9 @@ function App() {
             </button>
           </div>
         </div>
-        {/* Main layout: Map on left, Grid on right */}
+
         <div className="main-layout">
-          <MapZoom selected={selected} isPopupFadingOut={isPopupFadingOut} />
+          <MapZoom selected={selected} />
 
           <div className="bingo-grid-container">
             <div className="grid">
@@ -77,10 +84,73 @@ function App() {
                   );
                 })}
             </div>
-
-            <p style={{ marginTop: "2rem", color: "#888" }}></p>
           </div>
         </div>
+
+        {showAnimation && selected && (
+          <div
+            className="bingo-animation"
+            style={{
+              position: "fixed",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "rgba(42, 57, 74, 0.95)",
+              zIndex: 1000,
+            }}
+          >
+            <div
+              style={{
+                fontSize: "6rem",
+                // fontWeight: "bold",
+                color: "#fff",
+                padding: "3rem 4rem",
+                borderRadius: "2rem",
+                textShadow: "0 3px 8px rgba(0,0,0,0.6)",
+                animation: "pop 0.8s ease-in-out infinite alternate",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.8)",
+              }}
+            >
+              {selected.bingo_value}
+              remaining[rand]
+            </div>
+          </div>
+        )}
+
+        {showCard && selected && (
+          <div
+            className="location-card-overlay"
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              backgroundColor: "#2a394a",
+              color: "#f0f0f0",
+              borderRadius: "18px",
+              padding: "2.3rem",
+              maxWidth: "736px",
+              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.6)",
+              textAlign: "center",
+              zIndex: 1000,
+            }}
+          >
+            <h2 style={{ margin: 0 }}>📍 {selected.name}</h2>
+            <img
+              // src={`imagenes/${selected.img}`}
+              src="imagenes/FotoGenerica.jpg"
+              alt={selected.name}
+              className="location-img"
+            />
+            <p
+              style={{ marginTop: "0.75rem", fontSize: "1rem", color: "#ccc" }}
+            >
+              {selected.texto}
+            </p>
+          </div>
+        )}
+
         <img
           src="/imagenes/Logo_FR40_white.png"
           alt="Fundación Ruta 40"
