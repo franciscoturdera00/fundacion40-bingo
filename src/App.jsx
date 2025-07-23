@@ -119,14 +119,14 @@ function App() {
           >
             <div
               style={{
-                fontSize: "8rem",
+                fontSize: "10rem",
                 fontWeight: "bold",
                 color: "#fff",
                 padding: "3rem 4rem",
-                borderRadius: "2rem",
-                textShadow: "0 3px 8px rgba(0,0,0,0.6)",
+                borderRadius: "3rem",
+                textShadow: "0 4px 10px rgba(0,0,0,0.6)",
                 animation: "pop 0.8s ease-in-out infinite alternate",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.8)",
+                boxShadow: "0 10px 36px rgba(0,0,0,0.9)",
               }}
             >
               {oscillatingValue || "?"}
