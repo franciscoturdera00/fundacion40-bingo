@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import "./MapZoom.css";
 import { provinces } from "./provinces";
 
-export default function MapZoom({ selected, isPopupFadingOut }) {
+export default function MapZoom({ selected, delay }) {
+  const EFFECT_TIME = 4000;
   const [zoomLevel, setZoomLevel] = useState(1);
 
   useEffect(() => {
-    if (!selected) return;
+    if (selected == null) return;
 
     const normalizedProvince = selected.province
       ?.trim()
@@ -21,13 +22,15 @@ export default function MapZoom({ selected, isPopupFadingOut }) {
       return;
     }
 
-    // Step 1: Zoom in
-    setZoomLevel(province.zoom);
+    setTimeout(() => {
+      // Step 1: Zoom in
+      setZoomLevel(province.zoom);
+    }, delay);
 
-    // Step 2: Zoom out after 5s
+    // Step 2: Zoom out
     const timeoutId = setTimeout(() => {
       setZoomLevel(1);
-    }, 4000);
+    }, delay + EFFECT_TIME);
 
     return () => clearTimeout(timeoutId);
   }, [selected]);

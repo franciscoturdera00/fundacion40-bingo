@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { locations as allLocations } from "./locations";
 import MapZoom from "./MapZoom";
 import "./App.css";
 
 function App() {
+  const ANIMATION_TIME = 4000;
+  const BUTTON_TIMEOUT = ANIMATION_TIME + 1500;
   const [remaining, setRemaining] = useState([...allLocations]);
   const [selected, setSelected] = useState(null);
   const [drawn, setDrawn] = useState([]);
@@ -11,6 +13,20 @@ function App() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
   const [showCard, setShowCard] = useState(false);
+  const [oscillatingValue, setOscillatingValue] = useState(null);
+
+  useEffect(() => {
+    let interval;
+    if (showAnimation && remaining.length > 0) {
+      interval = setInterval(() => {
+        const index = Math.floor(Math.random() * remaining.length);
+        setOscillatingValue(remaining[index].bingo_value);
+      }, 100);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [showAnimation, remaining]);
 
   const drawRandom = () => {
     if (isButtonDisabled || remaining.length === 0) return;
@@ -33,11 +49,11 @@ function App() {
     setTimeout(() => {
       setShowAnimation(false);
       setShowCard(true);
-    }, 4000);
+    }, ANIMATION_TIME);
 
     setTimeout(() => {
       setIsButtonDisabled(false);
-    }, 6000);
+    }, BUTTON_TIMEOUT);
   };
 
   return (
@@ -62,7 +78,7 @@ function App() {
         </div>
 
         <div className="main-layout">
-          <MapZoom selected={selected} />
+          <MapZoom selected={selected} delay={ANIMATION_TIME} />
 
           <div className="bingo-grid-container">
             <div className="grid">
@@ -87,23 +103,24 @@ function App() {
           </div>
         </div>
 
-        {showAnimation && selected && (
+        {showAnimation && (
           <div
             className="bingo-animation"
             style={{
               position: "fixed",
               inset: 0,
               display: "flex",
+              // transform: "translate(0, -5%)",
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: "rgba(42, 57, 74, 0.95)",
-              zIndex: 1000,
+              zIndex: 10000,
             }}
           >
             <div
               style={{
-                fontSize: "6rem",
-                // fontWeight: "bold",
+                fontSize: "8rem",
+                fontWeight: "bold",
                 color: "#fff",
                 padding: "3rem 4rem",
                 borderRadius: "2rem",
@@ -112,8 +129,7 @@ function App() {
                 boxShadow: "0 8px 32px rgba(0,0,0,0.8)",
               }}
             >
-              {selected.bingo_value}
-              remaining[rand]
+              {oscillatingValue || "?"}
             </div>
           </div>
         )}
@@ -136,6 +152,22 @@ function App() {
               zIndex: 1000,
             }}
           >
+            <div
+              style={{
+                fontSize: "5rem",
+                fontWeight: "900",
+                color: "#fff",
+                background: "linear-gradient(135deg, #4caf50 0%, #81c784 100%)",
+                padding: "1rem 2rem",
+                borderRadius: "1rem",
+                boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
+                marginBottom: "1rem",
+                letterSpacing: "2px",
+                textShadow: "0 2px 4px rgba(0,0,0,0.6)",
+              }}
+            >
+              {selected.bingo_value}
+            </div>
             <h2 style={{ margin: 0 }}>📍 {selected.name}</h2>
             <img
               // src={`imagenes/${selected.img}`}
