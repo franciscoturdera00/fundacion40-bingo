@@ -431,7 +431,7 @@ export const locations = [
   },
   {
     bingo_value: 61,
-    name: "Escuela Sec, de Quilmes",
+    name: "Escuela Sec. de Quilmes",
     img: "61.jpg",
     province: "Tucumán",
     texto: "Quilmes, Tucumán",
