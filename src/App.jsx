@@ -4,8 +4,8 @@ import MapZoom from "./MapZoom";
 import "./App.css";
 
 function App() {
-  const ANIMATION_TIME = 2500;
-  const BUTTON_TIMEOUT = ANIMATION_TIME + 1500;
+  const ANIMATION_TIME = 0; // Animation code commented out below
+  const BUTTON_TIMEOUT = 3000;
   const [remaining, setRemaining] = useState([...allLocations]);
   const [selected, setSelected] = useState(null);
   const [drawn, setDrawn] = useState([]);
@@ -58,6 +58,17 @@ function App() {
     }, BUTTON_TIMEOUT);
   };
 
+  const resetGame = () => {
+    setRemaining([...allLocations]);
+    setSelected(null);
+    setDrawn([]);
+    setLastDrawn(null);
+    setIsButtonDisabled(false);
+    setShowAnimation(false);
+    setShowCard(false);
+    setOscillatingValue(null);
+  };
+
   return (
     <div className="app-scaled">
       <div id="root">
@@ -102,10 +113,18 @@ function App() {
                   );
                 })}
             </div>
+            <button
+              onClick={resetGame}
+              style={{
+                marginTop: "0.5rem",
+              }}
+            >
+              RESET
+            </button>
           </div>
         </div>
 
-        {showAnimation && (
+        {/* {showAnimation && (
           <div
             className="bingo-animation"
             style={{
@@ -134,7 +153,7 @@ function App() {
               {oscillatingValue || "?"}
             </div>
           </div>
-        )}
+        )} */}
 
         {showCard && selected && (
           <div
@@ -156,29 +175,79 @@ function App() {
           >
             <div
               style={{
-                fontSize: "5rem",
-                fontWeight: "900",
-                color: "#fff",
-                background: "linear-gradient(135deg, #4caf50 0%, #81c784 100%)",
-                padding: "1rem 2rem",
-                borderRadius: "1rem",
-                boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
-                marginBottom: "1rem",
-                letterSpacing: "2px",
-                textShadow: "0 2px 4px rgba(0,0,0,0.6)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: "1.5rem",
+                marginBottom: "1.5rem",
+                // flexWrap: "wrap",
+                textAlign: "left",
               }}
             >
-              {selected.bingo_value}
+              <div
+                style={{
+                  fontSize: "7rem",
+                  fontWeight: "900",
+                  color: "#fff",
+                  background:
+                    "linear-gradient(135deg, #4caf50 0%, #81c784 100%)",
+                  padding: "1rem 2rem",
+                  borderRadius: "1rem",
+                  boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
+                  letterSpacing: "2px",
+                  textShadow: "0 2px 4px rgba(0,0,0,0.6)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {selected.bingo_value}
+              </div>
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: "4rem",
+                  color: "#f0f0f0",
+                  fontWeight: "700",
+                  textShadow: "0 2px 4px rgba(0,0,0,0.4)",
+                  lineHeight: "1.3",
+                  textAlign: "left",
+                  paddingLeft: "0.15rem",
+                  textIndent: "-0.15rem", // slight pull for first line
+                }}
+              >
+                <span
+                  style={{
+                    paddingLeft: "2rem",
+                    display: "inline-block",
+                    textIndent: "-2rem",
+                  }}
+                >
+                  📍{selected.name}
+                </span>
+              </h2>
             </div>
-            <h2 style={{ margin: 0 }}>📍 {selected.name}</h2>
+
             <img
-              // src={`imagenes/${selected.img}`}
               src="imagenes/FotoGenerica.jpg"
               alt={selected.name}
               className="location-img"
+              style={{
+                width: "100%",
+                maxHeight: "280px",
+                objectFit: "cover",
+                borderRadius: "1rem",
+                marginBottom: "1.5rem",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
+              }}
             />
             <p
-              style={{ marginTop: "0.75rem", fontSize: "1rem", color: "#ccc" }}
+              style={{
+                fontSize: "2.5rem",
+                lineHeight: "1.6",
+                color: "#ddd",
+                margin: 0,
+                textAlign: "left",
+                textWrap: "pretty",
+              }}
             >
               {selected.texto}
             </p>
