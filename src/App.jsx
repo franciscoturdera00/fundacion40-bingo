@@ -176,17 +176,16 @@ function App() {
             <div
               style={{
                 display: "flex",
+                flexDirection: "column",
                 alignItems: "center",
-                justifyContent: "flex-start",
                 gap: "1.5rem",
                 marginBottom: "1.5rem",
-                // flexWrap: "wrap",
-                textAlign: "left",
+                flexWrap: "wrap",
               }}
             >
               <div
                 style={{
-                  fontSize: "7rem",
+                  fontSize: "5rem",
                   fontWeight: "900",
                   color: "#fff",
                   background:
@@ -204,25 +203,15 @@ function App() {
               <h2
                 style={{
                   margin: 0,
-                  fontSize: "3.5rem",
+                  fontSize: "2.5rem",
                   color: "#f0f0f0",
                   fontWeight: "700",
                   textShadow: "0 2px 4px rgba(0,0,0,0.4)",
                   lineHeight: "1.3",
-                  textAlign: "left",
-                  paddingLeft: "0.15rem",
-                  textIndent: "-0.15rem", // slight pull for first line
+                  textAlign: "center", // CENTRADO
                 }}
               >
-                <span
-                  style={{
-                    paddingLeft: "2rem",
-                    display: "inline-block",
-                    textIndent: "-2rem",
-                  }}
-                >
-                  📍{selected.name}
-                </span>
+                📍{selected.name}
               </h2>
             </div>
 
@@ -241,7 +230,7 @@ function App() {
             />
             <p
               style={{
-                fontSize: "2.5rem",
+                fontSize: "2rem",
                 lineHeight: "1.6",
                 color: "#ddd",
                 margin: 0,
