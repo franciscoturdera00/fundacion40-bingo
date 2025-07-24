@@ -204,7 +204,7 @@ function App() {
               <h2
                 style={{
                   margin: 0,
-                  fontSize: "4rem",
+                  fontSize: "3.5rem",
                   color: "#f0f0f0",
                   fontWeight: "700",
                   textShadow: "0 2px 4px rgba(0,0,0,0.4)",
