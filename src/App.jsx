@@ -216,7 +216,11 @@ function App() {
             </div>
 
             <img
-              src="imagenes/FotoGenerica.jpg"
+              src={`imagenes/escuelas/${selected.img}`}
+              onError={(e) => {
+                e.target.onerror = null; // evita loop
+                e.target.src = "imagenes/FotoGenerica.jpg";
+              }}
               alt={selected.name}
               className="location-img"
               style={{
@@ -228,6 +232,7 @@ function App() {
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
               }}
             />
+
             <p
               style={{
                 fontSize: "2rem",
