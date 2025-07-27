@@ -66,7 +66,7 @@ export default function MapZoom({ selected, delay }) {
           }
         >
           <img
-            src="public/imagenes/mapa_arg_no_background.jpg"
+            src="imagenes/mapa_arg_no_background.jpg"
             className="map-img"
             alt="Argentina map"
           />
