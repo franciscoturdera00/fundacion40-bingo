@@ -139,4 +139,6 @@ body,
   text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
   margin: 2rem 0 1.5rem;
   letter-spacing: 1px;
+  z-index: 9999; /* very high to stay above everything else */
+  position: relative;
 }
