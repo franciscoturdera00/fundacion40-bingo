@@ -4,6 +4,13 @@ import MapZoom from "./MapZoom";
 import "./App.css";
 
 function App() {
+  useEffect(() => {
+    allLocations.forEach((prov) => {
+      const img = new Image();
+      img.src = `imagenes/${prov.img || "FotoGenerica.jpg"}`;
+    });
+  }, []);
+
   const ANIMATION_TIME = 0; // Animation code commented out below
   const BUTTON_TIMEOUT = 3000;
   const [remaining, setRemaining] = useState([...allLocations]);
@@ -11,24 +18,25 @@ function App() {
   const [drawn, setDrawn] = useState([]);
   const [lastDrawn, setLastDrawn] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [showAnimation, setShowAnimation] = useState(false);
+  // const [showAnimation, setShowAnimation] = useState(false);
   const [showCard, setShowCard] = useState(false);
-  const [oscillatingValue, setOscillatingValue] = useState(null);
+  // const [oscillatingValue, setOscillatingValue] = useState(null);
 
-  useEffect(() => {
-    let interval;
-    if (showAnimation && remaining.length > 0) {
-      interval = setInterval(() => {
-        const index = Math.floor(Math.random() * remaining.length);
-        setOscillatingValue(
-          Math.floor(Math.random() * allLocations.length) + 1
-        );
-      }, 100);
-    } else {
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [showAnimation, remaining]);
+  // // This is for if we want an oscilating value when the bingo number is being picked
+  // useEffect(() => {
+  //   let interval;
+  //   if (showAnimation && remaining.length > 0) {
+  //     interval = setInterval(() => {
+  //       const index = Math.floor(Math.random() * remaining.length);
+  //       setOscillatingValue(
+  //         Math.floor(Math.random() * allLocations.length) + 1
+  //       );
+  //     }, 100);
+  //   } else {
+  //     clearInterval(interval);
+  //   }
+  //   return () => clearInterval(interval);
+  // }, [showAnimation, remaining]);
 
   const drawRandom = () => {
     if (isButtonDisabled || remaining.length === 0) return;
@@ -45,11 +53,11 @@ function App() {
     setDrawn([...drawn, selectedLocation.name]);
 
     setIsButtonDisabled(true);
-    setShowAnimation(true);
+    // setShowAnimation(true);
     setShowCard(false);
 
     setTimeout(() => {
-      setShowAnimation(false);
+      // setShowAnimation(false);
       setShowCard(true);
     }, ANIMATION_TIME);
 
@@ -64,9 +72,9 @@ function App() {
     setDrawn([]);
     setLastDrawn(null);
     setIsButtonDisabled(false);
-    setShowAnimation(false);
+    // setShowAnimation(false);
     setShowCard(false);
-    setOscillatingValue(null);
+    // setOscillatingValue(null);
   };
 
   return (
