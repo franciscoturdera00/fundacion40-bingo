@@ -48,7 +48,6 @@ export default function MapZoom({ selected, delay }) {
     zoom: 1,
   };
   const center = province?.center || fallback.center;
-  const zoom = province?.zoom || fallback.zoom;
 
   return (
     <div className="map-grid">
