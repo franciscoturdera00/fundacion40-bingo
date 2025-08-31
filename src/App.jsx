@@ -1,45 +1,81 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react"; // ← add useRef
 import { locations as allLocations } from "./locations";
 import MapZoom from "./MapZoom";
 import "./App.css";
 
 function App() {
+  // Cache for preloaded images
+  const imgCacheRef = useRef(new Map());
+
   useEffect(() => {
     allLocations.forEach((prov) => {
+      const src = `imagenes/escuelas/${prov.img || "FotoGenerica.jpg"}`;
       const img = new Image();
-      img.src = `imagenes/escuelas/${prov.img}`;
-      console.log(`imagenes/escuelas/${prov.img}`);
+      img.src = src;
+
+      // Try to decode right away so it's ready to paint instantly later
+      if (img.decode) {
+        img.decode().catch(() => {}); // ignore decode errors; we'll handle on use
+      }
+      imgCacheRef.current.set(src, img);
     });
   }, []);
 
-  const ANIMATION_TIME = 0; // Animation code commented out below
+  const ANIMATION_TIME = 0;
   const BUTTON_TIMEOUT = 3000;
   const [remaining, setRemaining] = useState([...allLocations]);
   const [selected, setSelected] = useState(null);
   const [drawn, setDrawn] = useState([]);
   const [lastDrawn, setLastDrawn] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  // const [showAnimation, setShowAnimation] = useState(false);
   const [showCard, setShowCard] = useState(false);
-  // const [oscillatingValue, setOscillatingValue] = useState(null);
 
-  // // This is for if we want an oscilating value when the bingo number is being picked
-  // useEffect(() => {
-  //   let interval;
-  //   if (showAnimation && remaining.length > 0) {
-  //     interval = setInterval(() => {
-  //       const index = Math.floor(Math.random() * remaining.length);
-  //       setOscillatingValue(
-  //         Math.floor(Math.random() * allLocations.length) + 1
-  //       );
-  //     }, 100);
-  //   } else {
-  //     clearInterval(interval);
-  //   }
-  //   return () => clearInterval(interval);
-  // }, [showAnimation, remaining]);
+  // Helper: ensure an image is decoded before showing
+  const ensureDecoded = async (src) => {
+    let img = imgCacheRef.current.get(src);
+    if (!img) {
+      img = new Image();
+      img.src = src;
+      imgCacheRef.current.set(src, img);
+    }
 
-  const drawRandom = () => {
+    // Try HTMLImageElement.decode() when available (best, no layout jank)
+    if (img.decode) {
+      try {
+        await img.decode();
+        return src;
+      } catch {
+        // If image missing or decode fails, fall back
+      }
+    } else if (!img.complete) {
+      // Older browsers: wait for onload/onerror
+      await new Promise((res) => {
+        img.onload = img.onerror = () => res();
+      });
+      if (img.naturalWidth > 0) return src; // loaded fine
+    }
+
+    // Fallback to generic photo if original failed
+    const fallback = "imagenes/FotoGenerica.jpg";
+    let fb = imgCacheRef.current.get(fallback);
+    if (!fb) {
+      fb = new Image();
+      fb.src = fallback;
+      imgCacheRef.current.set(fallback, fb);
+    }
+    if (fb.decode) {
+      try {
+        await fb.decode();
+      } catch {}
+    } else if (!fb.complete) {
+      await new Promise((res) => {
+        fb.onload = fb.onerror = () => res();
+      });
+    }
+    return fallback;
+  };
+
+  const drawRandom = async () => {
     if (isButtonDisabled || remaining.length === 0) return;
 
     const index = Math.floor(Math.random() * remaining.length);
@@ -51,16 +87,22 @@ function App() {
 
     setSelected(selectedLocation);
     setLastDrawn(selectedLocation.name);
-    setDrawn([...drawn, selectedLocation.name]);
+    setDrawn((d) => [...d, selectedLocation.name]);
 
     setIsButtonDisabled(true);
-    // setShowAnimation(true);
     setShowCard(false);
 
-    setTimeout(() => {
-      // setShowAnimation(false);
-      setShowCard(true);
-    }, ANIMATION_TIME);
+    // Wait for the image to be decoded before showing the card
+    const src = `imagenes/escuelas/${
+      selectedLocation.img || "FotoGenerica.jpg"
+    }`;
+    const readySrc = await ensureDecoded(src);
+
+    // Small delay hook if you ever re-enable animation
+    await new Promise((r) => setTimeout(r, ANIMATION_TIME));
+
+    // Now show the card; the image is already decoded, so it paints instantly
+    setShowCard(true);
 
     setTimeout(() => {
       setIsButtonDisabled(false);
@@ -73,9 +115,7 @@ function App() {
     setDrawn([]);
     setLastDrawn(null);
     setIsButtonDisabled(false);
-    // setShowAnimation(false);
     setShowCard(false);
-    // setOscillatingValue(null);
   };
 
   return (
@@ -122,47 +162,11 @@ function App() {
                   );
                 })}
             </div>
-            <button
-              onClick={resetGame}
-              style={{
-                marginTop: "0.5rem",
-              }}
-            >
+            <button onClick={resetGame} style={{ marginTop: "0.5rem" }}>
               RESET
             </button>
           </div>
         </div>
-
-        {/* {showAnimation && (
-          <div
-            className="bingo-animation"
-            style={{
-              position: "fixed",
-              inset: 0,
-              display: "flex",
-              // transform: "translate(0, -5%)",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "rgba(42, 57, 74, 0.95)",
-              zIndex: 10000,
-            }}
-          >
-            <div
-              style={{
-                fontSize: "10rem",
-                fontWeight: "bold",
-                color: "#fff",
-                padding: "3rem 4rem",
-                borderRadius: "3rem",
-                textShadow: "0 4px 10px rgba(0,0,0,0.6)",
-                animation: "pop 0.8s ease-in-out infinite alternate",
-                boxShadow: "0 10px 36px rgba(0,0,0,0.9)",
-              }}
-            >
-              {oscillatingValue || "?"}
-            </div>
-          </div>
-        )} */}
 
         {showCard && selected && (
           <div
@@ -217,7 +221,7 @@ function App() {
                   fontWeight: "700",
                   textShadow: "0 2px 4px rgba(0,0,0,0.4)",
                   lineHeight: "1.3",
-                  textAlign: "center", // CENTRADO
+                  textAlign: "center",
                 }}
               >
                 📍{selected.name}
@@ -225,9 +229,11 @@ function App() {
             </div>
 
             <img
+              // Keep your src; it will be instant because we decoded it
               src={`imagenes/escuelas/${selected.img}`}
+              loading="eager"
               onError={(e) => {
-                e.target.onerror = null; // evita loop
+                e.target.onerror = null;
                 e.target.src = "imagenes/FotoGenerica.jpg";
               }}
               alt={selected.name}
