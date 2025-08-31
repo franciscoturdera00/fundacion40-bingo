@@ -7,7 +7,8 @@ function App() {
   useEffect(() => {
     allLocations.forEach((prov) => {
       const img = new Image();
-      img.src = `imagenes/${prov.img || "FotoGenerica.jpg"}`;
+      img.src = `imagenes/escuelas/${prov.img}`;
+      console.log(`imagenes/escuelas/${prov.img}`);
     });
   }, []);
 
